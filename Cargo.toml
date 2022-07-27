@@ -10,3 +10,8 @@ proc-macro = true
 
 [features]
 show_output = []
+
+[dependencies]
+proc-macro2 = "1.0.42"
+syn = { version = "1.0.98", features = [ "full" ] }
+quote = "1.0.20"
