@@ -1,0 +1,12 @@
+[package]
+name = "smartlink"
+version = "0.1.0"
+edition = "2021"
+authors = [ "Nathan Royer <nathan.royer.pro@gmail.com>" ]
+description = "Generate a header-like version of your crate"
+
+[lib]
+proc-macro = true
+
+[features]
+show_output = []
