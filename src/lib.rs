@@ -67,7 +67,22 @@ pub fn smartlink(attr: TokenStream, item: TokenStream) -> TokenStream {
 
         retval
     } else {
-        item
+        let (fn_name, _, _, _) = parse_signature(item.clone());
+        let trees = item.into_iter().collect::<Vec<Tree>>();
+        let mut item = Vec::new();
+
+        let in_bracket = vec![
+            Tree::Ident(Ident::new("export_name", Span::call_site())),
+            Tree::Punct(Punct::new('=', Spacing::Alone)),
+            Tree::Literal(Literal::string(&fn_name)),
+        ];
+
+        let in_bracket_stream = TokenStream::from_iter(in_bracket);
+        item.push(Tree::Punct(Punct::new('#', Spacing::Alone)));
+        item.push(Tree::Group(Group::new(Bracket, in_bracket_stream)));
+        item.extend_from_slice(&trees);
+
+        TokenStream::from_iter(item)
     }
 }
 
@@ -118,7 +133,7 @@ fn parse_signature(item: TokenStream) -> (String, Vec<String>, Vec<Tree>, usize)
 
             let mut ident = ident.to_string();
             if can_read_fn_name && fn_name.is_none() {
-                ident = "_ZN7testplz16example_function17hb1b493dba10a26ddE".to_string();
+                ident += "_fake_mangling";
                 fn_name = Some(ident);
             } else if ident == "fn" {
                 can_read_fn_name = true;
