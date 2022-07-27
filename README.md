@@ -92,7 +92,7 @@ pub fn example_function < 'a >
 (_unused : Something, some_param : & 'a dyn std :: io :: Write) -> & 'a dyn
 std :: io :: Write
 {
-    #[link(name = "1", kind = "dylib")] extern "Rust"
+    #[link(name = "demo-lib", kind = "dylib")] extern "Rust"
     {
         fn example_function_fake_mangling < 'a >
         (_unused : Something, some_param : & 'a dyn std :: io :: Write) -> &
